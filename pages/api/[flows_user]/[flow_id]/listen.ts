@@ -47,5 +47,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         "dispatchTimestamp": "2023-01-19T05:04:38.825Z",
         "system": "ethereum",
         "network": "goerli"
-    })
+    });
 }
