@@ -10,6 +10,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
         let allFlows = await redis.hgetall(`${address}:ch:trigger`);
+        return res.status(200).send(`${address}:ch:trigger` + allFlows);
 
         if (allFlows) {
             return res.status(200).json(allFlows);
