@@ -16,7 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         } else {
             return res.status(404).send("No flow binding with the address")
         }
-    } catch(e: any) {
+    } catch (e: any) {
         return res.status(500).send(e.toString());
     }
 }
