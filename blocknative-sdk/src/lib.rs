@@ -95,13 +95,10 @@ pub fn revoke_listeners() {
     }
 }
 
-pub fn listen_to_address(address: &str, callback: fn(Event)) {
-    if let Some(bnm) = event_received(address) {
-        callback(bnm)
-    }
-}
-
-fn event_received(address: &str) -> Option<Event> {
+pub fn listen_to_address<F>(address: &str, callback: F)
+where
+    F: Fn(Event),
+{
     unsafe {
         match is_listening() {
             // Calling register
@@ -130,14 +127,21 @@ fn event_received(address: &str) -> Option<Event> {
                 .unwrap();
 
                 match res.status_code().is_success() {
-                    true => serde_json::from_slice::<Event>(&writer).ok(),
+                    true => {
+                        if let Ok(event) = serde_json::from_slice::<Event>(&writer) {
+                            callback(event)
+                        }
+                    }
                     false => {
                         set_error_log(writer.as_ptr(), writer.len() as i32);
-                        None
                     }
                 }
             }
-            _ => event_from_subcription(),
+            _ => {
+                if let Some(event) = event_from_subcription() {
+                    callback(event)
+                }
+            }
         }
     }
 }
