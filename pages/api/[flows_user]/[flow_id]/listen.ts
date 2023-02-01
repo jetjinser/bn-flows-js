@@ -38,7 +38,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         "maxPriorityFeePerGasGwei": 1.5,
         "transactionIndex": null,
         "asset": "ETH",
-        "watchedAddress": "0xc8a8f0c656d21bd619fb06904626255af19663ff",
+        "watchedAddress": "0xC8a8f0C656D21bd619FB06904626255af19663ff",
         "direction": "incoming",
         "counterparty": "0x1291351b8Aa33FdC64Ac77C8302Db523d5B43AeF",
         "serverVersion": "0.158.1",
