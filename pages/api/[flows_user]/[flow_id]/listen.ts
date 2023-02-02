@@ -8,10 +8,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(400).send("Bad request");
     }
 
-    await redis.hset(`${address}:ch:trigger`, {
-        flows_user: flows_user,
-        flow_id: flow_id,
-    });
+    if (typeof flow_id == "string") {
+        let flows_user_in = await redis.hget(`${address}:ch:trigger`, flow_id);
+        if (!flows_user_in) {
+            await redis.hset(`${address}:ch:trigger`, { [flow_id]: flows_user });
+        }
+    }
 
     return res.status(200).json({
         "status": "pending",

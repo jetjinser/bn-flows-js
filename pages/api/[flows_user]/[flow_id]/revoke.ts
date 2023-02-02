@@ -8,8 +8,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(400).send("Bad request");
     }
 
-    await redis.hdel(`${address}:ch:trigger`, "flows_user");
-    await redis.hdel(`${address}:ch:trigger`, "flow_id");
+    if (typeof flow_id == "string") {
+        await redis.hdel(`${address}:ch:trigger`, flow_id);
+    }
 
     return res.status(200).send("ok");
 }
